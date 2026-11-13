@@ -504,7 +504,7 @@ html.js .rv:not(.in) { opacity: .3; transform: translateY(36px) scale(.985); }
 
 <div id="progress" aria-hidden="true"></div>
 <canvas id="fx" aria-hidden="true"></canvas>
-<audio id="song" src="din_shagna_da.mp3" loop preload="auto"></audio>
+<audio id="song" src="Aaj%20Sajeya.mp3" loop preload="auto"></audio>
 <button class="music" id="music" type="button" aria-pressed="false" aria-label="Play music"><svg class="on-i" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><svg class="off" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></button>
 <!-- ======================= HERO ======================= -->
 <header class="hero" id="top">
@@ -904,7 +904,7 @@ html.js .rv:not(.in) { opacity: .3; transform: translateY(36px) scale(.985); }
   renderWishes();
 
   /* ---------- rsvp ---------- */
-  var nameEl = $('#guest-name'), wishEl = $('#wish-text'), send = $('#wa-send'), chips = $('#guest-chips');
+  /*var nameEl = $('#guest-name'), wishEl = $('#wish-text'), send = $('#wa-send'), chips = $('#guest-chips');
   function val(name) { var r = document.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ''; }
   function message() {
     var yes = val('att') === 'yes', n = nameEl.value.trim() || '(name)', w = wishEl.value.trim();
@@ -914,10 +914,42 @@ html.js .rv:not(.in) { opacity: .3; transform: translateY(36px) scale(.985); }
     if (w) m += ' Wish: ' + w;
     return m;
   }
-  function sync() {
+  */
+	function message() {
+    var attendance = val('att'),
+        n = nameEl.value.trim() || '(name)',
+        w = wishEl.value.trim();
+
+    var m = 'Namaste! This is ' + n + '. ';
+
+    if (attendance === 'wedding') {
+        m += 'I will attend the wedding of Ravi & Kirti on 26 February 2027. Guests: ' + val('guests') + '.';
+
+    } else if (attendance === 'reception') {
+        m += 'I will attend the reception of Ravi & Kirti on 26 February 2027. Guests: ' + val('guests') + '.';
+
+    } else if (attendance === 'both') {
+        m += 'I will attend both the wedding and reception of Ravi & Kirti on 26 February 2027. Guests: ' + val('guests') + '.';
+
+    } else {
+        m += 'I regret that I cannot attend the wedding or reception of Ravi & Kirti on 26 February 2027, but I send my blessings.';
+    }
+
+    if (w) m += ' Wish: ' + w;
+
+    return m;
+	}
+	function sync() {
+    chips.classList.toggle('off', val('att') === 'no');
+
+    send.href = 'https://wa.me/' + WA_NUMBER +
+        '?text=' + encodeURIComponent(message());
+	}
+  /*function sync() {
     chips.classList.toggle('off', val('att') === 'no');
     send.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(message());
   }
+  */
   $('#rsvp-form').addEventListener('input', sync);
   $('#rsvp-form').addEventListener('change', sync);
   $('#rsvp-form').addEventListener('submit', function (e) { e.preventDefault(); });
